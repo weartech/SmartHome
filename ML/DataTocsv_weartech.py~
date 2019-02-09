@@ -1,0 +1,34 @@
+from nltk import word_tokenize
+import csv
+
+infile = 'output.txt'
+outfile = 'outdata.csv'
+
+#with open(outfile , 'w+') as out:
+    #out.write('ax,ay,az,gx,gy,gz,mx,my,mz,q0,qx,qy,qz,Yaw,Pitch,Roll,Rate\n')
+
+with open(infile, 'r') as file:
+    for index , row in enumerate(file):
+        line_index = index % 6 # every 5 lines
+
+        line_tokens = word_tokenize(row)
+        
+        if line_index == 0:
+            line_tuple = tuple()
+        
+        if line_index in [0 , 1 , 2]:
+            line_tuple += float(line_tokens[2]) , float(line_tokens[5]) , float(line_tokens[8])
+        if line_index == 3:
+            line_tuple += float(line_tokens[2]), float(line_tokens[5]) , float(line_tokens[8]) , float(line_tokens[11])
+        if line_index == 4:
+            line_tuple += float(line_tokens[6]) , float(line_tokens[8]) , float(line_tokens[10])
+        if line_index == 5:
+            line_tuple += float(line_tokens[2]), 
+
+        if line_index == 5:
+            with open(outfile,'a') as out:
+                csv_out=csv.writer(out)
+                csv_out.writerow(line_tuple)
+
+            
+    
